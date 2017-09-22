@@ -1,0 +1,9 @@
+%h2 Confirm your order
+- if @current_order.ordered_items.length == 0
+  %p Your cart is still empty.
+- else
+  = render "checkout/current_order"
+%br
+
+= link_to 'Back to my cart', carts_path, :class => "btn btn-success pull-right"
+= button_to 'Confirm', payment_path(:payment_status => "completed", :transaction_id => SecureRandom.hex), :class => "btn btn-success pull-right", :style => "margin-right:10px;"

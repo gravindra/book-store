@@ -1,0 +1,37 @@
+%h2 Carts items
+- if @ordered_products.length == 0
+  %p Your cart is empty
+- else
+  %table.table.table-bordered
+    %thead
+      %tr
+        %th Sr
+        %th Name
+        %th Quantity
+        %th Price
+        %th Total
+        %th
+    %tbody
+      - @ordered_products.each_with_index do |(id, details), index|
+        - product_id = details[:product][:id]
+        %tr
+          %td= index+1
+          %td{:id => "product_name_#{product_id}"}
+            = details[:product][:name]
+            = track_product_price_change(product_id, details[:product][:price])
+          %td{:id => "product_qty_#{product_id}"}
+            =form_for 'quantity', :url => {:controller => 'cart_items', :action => 'update', product_id: details[:product][:id], id: index }, method: :patch  do |f|
+              = f.number_field details[:qty], :min => 1, :value => details[:qty], :class => "qty qty-editable", "data-message" => product_id
+          %td{:id => "product_sub_total_#{product_id}", :data => {:message =>"#{details[:product][:price]}"}}= "#{details[:product][:price]}$"
+          %td.line-total{:id => "product_total_#{product_id}"}= line_item_total(details[:product][:price], details[:qty])
+          %td
+            = link_to cart_path(details[:product][:id]), :class => "clear-button", method: :delete  do
+              %i.fa.fa-trash-o
+    %tfoot
+      %tr
+        %td{colspan: 3}
+        %td Total
+        %td{colspan: 2, :id => "total"}= "#{@total.round(2)}$"
+
+  = button_to 'Checkout', checkout_path, :class => "btn btn-success pull-right"
+

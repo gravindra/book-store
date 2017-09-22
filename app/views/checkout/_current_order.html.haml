@@ -1,0 +1,25 @@
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Sr
+      %th Name
+      %th Quantity
+      %th Price
+      %th Total
+  %tbody
+    - @current_order.ordered_items.each_with_index do |(product_id, details), index|
+      %tr
+        %td= index+1
+        %td= details["product"]['name']
+        %td= details["qty"]
+        %td= "#{details["product"]['price']}$"
+        %td= line_item_total(details["product"]["price"], details["qty"])
+    - @current_order.final_amount = @current_order.total
+    %tr
+      %td{colspan: 3}
+      %td Final amount
+      %td= "#{@current_order.final_amount}$"
+
+- session[:order][:details] = {"total"=>@current_order.total, "final_amount"=>@current_order.final_amount}
+
+

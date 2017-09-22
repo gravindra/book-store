@@ -1,0 +1,17 @@
+- model_class = Product
+.page-header
+  %h1 Books
+
+.row
+  - @products.each do |product|
+    .col-md-4
+      .card{:style => "width: 275px;"}
+        = image_tag((product.image.url || "default_image.jpg"), :style => "width: 20rem; height:280px;", :class => "card-img-top", :alt => "product")
+
+        .card-block
+          %h5.card-title= product.name
+          %p.card-text= "#{product.price}$"
+          = button_to "Add to cart", cart_items_path(product_id: product.id), :class => "btn btn-primary"
+      %br
+
+=# link_to t('.new', :default => t("helpers.links.new")), new_product_path, :class => 'btn btn-primary'.
