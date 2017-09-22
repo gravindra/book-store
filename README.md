@@ -1,28 +1,34 @@
-== README
+## Book store
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Setup
 
-Things you may want to cover:
+  `bundle install`
 
-* Ruby version
+  `rake db:setup`
 
-* System dependencies
+  `rails server`
 
-* Configuration
+# Ruby Gems
 
-* Database creation
+  - devise: used for authentication
+  - paperclip: used to upload product image
+  - twitter-bootstrap-rails: used to integrate bootstrap UI framework
+  - whenever: used to run cron jobs which will run task to delete user inactive carts data.
 
-* Database initialization
+# Features
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+  - User can add products in carts without login
+  - User have to login while cart checkout to maintain its carts items
+  - User cart data will get expired 2 days since their last updates
+  - Added cron job to monitor user carts updates
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+# special one scenario test case
+
+  - To test special case scenario add products in user carts and then from backend update product price which is present in user cart
+  - Output: User will see text below product name which indicates product price change.
+
+# Run test cases
+
+  `rspec`
+
