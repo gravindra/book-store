@@ -17,4 +17,16 @@ feature 'cart items', type: :request do
     product_qty = find("#product_qty_#{@product_one.id} input.qty").value
     expect(product_name).to eq(@product_one.name)
   end
+
+  scenario 'add multiple item to cart' do
+    visit products_path
+    expect(page).to have_button('Add to cart')
+    click_button('Add to cart')
+    click_button ('Add to cart')
+    visit carts_path
+    product_name = find("#product_name_#{@product_one.id}").text
+    product_qty = find("#product_qty_#{@product_one.id} input.qty").value
+    expect(product_name).to eq(@product_one.name)
+    expect(product_qty).to eq("2")
+  end
 end
